@@ -27,6 +27,20 @@ function showSection(sectionId) {
 
     if (sectionId === 'vagas') renderVagasList();
     if (sectionId === 'dashboard') updateDashboardStats();
+    if (sectionId === 'busca') {
+        const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+        document.getElementById('search-active-vaga-label').textContent = activeVaga ? activeVaga.name : "Nenhuma vaga selecionada";
+    }
+}
+
+function quickSearchForActiveVaga() {
+    const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+    if (!activeVaga) return;
+    
+    showSection('busca');
+    document.getElementById('job-description').value = activeVaga.name;
+    // Trigger rank search immediately
+    document.getElementById('btn-search').click();
 }
 
 // Vacancy Management
@@ -90,6 +104,7 @@ function updateDashboardStats() {
     if (activeVaga) {
         banner.style.display = 'flex';
         document.getElementById('active-vaga-name').textContent = activeVaga.name;
+        document.getElementById('search-active-vaga-label').textContent = activeVaga.name;
         document.getElementById('stat-candidatos').textContent = activeVaga.candidates.length;
         
         if (activeVaga.candidates.length > 0) {

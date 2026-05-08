@@ -110,12 +110,17 @@
                 </section>
 
                 <!-- Current Vaga Context -->
-                <div id="vaga-context-banner" style="display: none; margin-bottom: 2rem; background: var(--primary-light); padding: 1rem 2rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center;">
+                <div id="vaga-context-banner" style="display: none; margin-bottom: 2rem; background: var(--primary-light); padding: 1.5rem 2rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--primary);">
                     <div>
-                        <span style="font-size: 0.8rem; color: var(--primary-dark); font-weight: 600; text-transform: uppercase;">Vaga Ativa:</span>
-                        <h3 id="active-vaga-name" style="color: var(--darker);">Nenhuma selecionada</h3>
+                        <span style="font-size: 0.8rem; color: var(--primary-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Vaga Ativa:</span>
+                        <h3 id="active-vaga-name" style="color: var(--darker); font-size: 1.5rem;">Nenhuma selecionada</h3>
                     </div>
-                    <button class="btn-search" style="height: auto; padding: 0.5rem 1rem; font-size: 0.8rem; background: var(--darker);" onclick="showSection('vagas')">Trocar Vaga</button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-search" style="height: auto; padding: 0.8rem 1.5rem; background: var(--primary);" onclick="quickSearchForActiveVaga()">
+                            <i data-lucide="search" style="width: 18px;"></i> Buscar Candidatos
+                        </button>
+                        <button class="btn-search" style="height: auto; padding: 0.8rem 1.5rem; background: var(--darker);" onclick="showSection('vagas')">Trocar Vaga</button>
+                    </div>
                 </div>
             </div>
 
@@ -132,6 +137,10 @@
 
             <!-- Busca Section -->
             <div id="section-busca" style="display: none;">
+                <div id="search-vaga-context" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--grey-600); background: white; padding: 0.8rem 1.5rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--grey-200);">
+                    <i data-lucide="info" style="width: 16px; color: var(--primary);"></i>
+                    Salvando candidatos para: <strong id="search-active-vaga-label" style="color: var(--darker);">Nenhuma vaga selecionada</strong>
+                </div>
                 <!-- Search Section -->
                 <section class="search-container animate-fade-in">
                     <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
