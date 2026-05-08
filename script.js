@@ -38,6 +38,9 @@ function renderCandidates(data) {
 
         const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
         
+        // Get initials for the candidate
+        const initials = candidate.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        
         row.innerHTML = `
             <td>
                 <div class="rank-pill ${rankClass}">
@@ -46,8 +49,8 @@ function renderCandidates(data) {
             </td>
             <td>
                 <div class="candidate-info">
-                    <div class="avatar" style="width: 35px; height: 35px;">
-                        <img src="${candidate.avatar}" alt="${candidate.name}">
+                    <div class="avatar-initials" style="width: 32px; height: 32px; font-size: 0.7rem; margin-right: 12px;">
+                        ${initials}
                     </div>
                     <div>
                         <span class="candidate-name">${candidate.name}</span>

@@ -85,6 +85,31 @@ body {
     flex-grow: 1;
 }
 
+.user-profile {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 0.6rem 1rem;
+    border-radius: 100px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--grey-100);
+}
+
+.avatar-initials {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), #00A1A1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px var(--primary-glow);
+}
+
 .nav-link {
     display: flex;
     align-items: center;
