@@ -1,127 +1,195 @@
-function renderCandidates(data) {
-    const tableBody = document.getElementById('candidates-body');
+// State Management
+let appState = {
+    vagas: JSON.parse(localStorage.getItem('forgood_vagas')) || [],
+    activeVagaId: localStorage.getItem('forgood_activeVagaId') || null,
+    currentSearchResults: []
+};
+
+function saveState() {
+    localStorage.setItem('forgood_vagas', JSON.stringify(appState.vagas));
+    localStorage.setItem('forgood_activeVagaId', appState.activeVagaId);
+}
+
+// Navigation
+function showSection(sectionId) {
+    const sections = ['dashboard', 'vagas', 'busca'];
+    sections.forEach(s => {
+        document.getElementById(`section-${s}`).style.display = s === sectionId ? 'block' : 'none';
+    });
+
+    // Update nav links active state
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick')?.includes(sectionId)) {
+            link.classList.add('active');
+        }
+    });
+
+    if (sectionId === 'vagas') renderVagasList();
+    if (sectionId === 'dashboard') updateDashboardStats();
+}
+
+// Vacancy Management
+function createNewVaga() {
+    const name = prompt("Nome da Vaga (ex: Head de Operações):");
+    if (!name) return;
+
+    const newVaga = {
+        id: Date.now().toString(),
+        name: name,
+        status: 'Aberta',
+        createdAt: new Date().toLocaleDateString(),
+        candidates: []
+    };
+
+    appState.vagas.push(newVaga);
+    appState.activeVagaId = newVaga.id;
+    saveState();
+    renderVagasList();
+}
+
+function selectVaga(id) {
+    appState.activeVagaId = id;
+    saveState();
+    showSection('dashboard');
+}
+
+function renderVagasList() {
+    const container = document.getElementById('vagas-list-grid');
+    container.innerHTML = '';
+
+    appState.vagas.forEach(vaga => {
+        const card = document.createElement('div');
+        card.className = `stat-card animate-fade-in ${appState.activeVagaId === vaga.id ? 'active-vaga-card' : ''}`;
+        card.style.cursor = 'pointer';
+        card.onclick = () => selectVaga(vaga.id);
+        
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div class="stat-icon"><i data-lucide="briefcase"></i></div>
+                <span class="badge ${vaga.status === 'Aberta' ? 'badge-match' : 'badge-closed'}">${vaga.status}</span>
+            </div>
+            <div class="stat-value" style="font-size: 1.2rem;">${vaga.name}</div>
+            <div class="stat-label">${vaga.candidates.length} Candidatos Salvos</div>
+            <p style="font-size: 0.7rem; color: var(--grey-500); margin-top: 1rem;">Criada em: ${vaga.createdAt}</p>
+        `;
+        container.appendChild(card);
+    });
     
-    // Update Stats
-    document.getElementById('stat-candidatos').textContent = data.length;
-    if (data.length > 0) {
-        const avgMatch = Math.round(data.reduce((acc, curr) => acc + curr.match, 0) / data.length);
-        document.getElementById('stat-match').textContent = `${avgMatch}%`;
-        document.getElementById('stat-vagas').textContent = "1";
+    if (window.lucide) window.lucide.createIcons();
+}
+
+// Dashboard Logic
+function updateDashboardStats() {
+    const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+    const banner = document.getElementById('vaga-context-banner');
+    
+    // Global Stats
+    document.getElementById('stat-vagas').textContent = appState.vagas.filter(v => v.status === 'Aberta').length;
+    
+    if (activeVaga) {
+        banner.style.display = 'flex';
+        document.getElementById('active-vaga-name').textContent = activeVaga.name;
+        document.getElementById('stat-candidatos').textContent = activeVaga.candidates.length;
+        
+        if (activeVaga.candidates.length > 0) {
+            const avgMatch = Math.round(activeVaga.candidates.reduce((acc, curr) => acc + curr.match, 0) / activeVaga.candidates.length);
+            document.getElementById('stat-match').textContent = `${avgMatch}%`;
+        } else {
+            document.getElementById('stat-match').textContent = '0%';
+        }
     } else {
-        document.getElementById('stat-match').textContent = `0%`;
-        document.getElementById('stat-vagas').textContent = "0";
+        banner.style.display = 'none';
+        document.getElementById('stat-candidatos').textContent = '0';
+        document.getElementById('stat-match').textContent = '0%';
+    }
+}
+
+// Candidate Saving
+function saveCandidate(index) {
+    if (!appState.activeVagaId) {
+        alert("Selecione ou crie uma vaga primeiro na seção 'Minhas Vagas'!");
+        showSection('vagas');
+        return;
     }
 
+    const candidate = appState.currentSearchResults[index];
+    const vaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+    
+    if (vaga.candidates.some(c => c.linkedin === candidate.linkedin)) {
+        alert("Este candidato já foi salvo nesta vaga.");
+        return;
+    }
+
+    vaga.candidates.push(candidate);
+    saveState();
+    alert(`${candidate.name} salvo na vaga ${vaga.name}!`);
+    renderCandidates(appState.currentSearchResults);
+}
+
+// Search & Render
+function renderCandidates(data) {
+    appState.currentSearchResults = data;
+    const tableBody = document.getElementById('candidates-body');
+    
     if (data.length === 0) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" style="text-align: center; padding: 4rem; color: var(--grey-500);">
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                        <i data-lucide="search-x" style="width: 48px; height: 48px; opacity: 0.3;"></i>
-                        <p>Nenhum perfil carregado. Insira os requisitos acima para iniciar a busca em tempo real.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-        if (window.lucide) window.lucide.createIcons();
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 4rem; color: var(--grey-500);">Nenhum perfil carregado.</td></tr>`;
         return;
     }
 
     tableBody.innerHTML = '';
-
     data.forEach((candidate, index) => {
         const row = document.createElement('tr');
-        row.className = 'animate-fade-in';
-        row.style.animationDelay = `${(index + 1) * 0.1}s`;
-
-        const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-        
         const initials = candidate.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        
+        const isSaved = appState.activeVagaId && appState.vagas.find(v => v.id === appState.activeVagaId).candidates.some(c => c.linkedin === candidate.linkedin);
+
         row.innerHTML = `
-            <td>
-                <div class="rank-pill ${rankClass}">
-                    ${index + 1}
-                </div>
-            </td>
+            <td><div class="rank-pill">${index + 1}</div></td>
             <td>
                 <div class="candidate-info">
-                    <div class="avatar-initials" style="width: 32px; height: 32px; font-size: 0.7rem; margin-right: 12px;">
-                        ${initials}
-                    </div>
-                    <div>
-                        <span class="candidate-name">${candidate.name}</span>
-                        <span class="candidate-title">${candidate.title}</span>
-                    </div>
+                    <div class="avatar-initials" style="width: 32px; height: 32px; font-size: 0.7rem; margin-right: 12px;">${initials}</div>
+                    <div><span class="candidate-name">${candidate.name}</span><span class="candidate-title">${candidate.title}</span></div>
                 </div>
             </td>
             <td>${candidate.company}</td>
-            <td>
-                <span class="badge badge-match">${candidate.match}% Match</span>
-            </td>
+            <td><span class="badge badge-match">${candidate.match}% Match</span></td>
             <td style="font-size: 0.85rem; color: var(--grey-600);">${candidate.experience}</td>
             <td>
-                <a href="${candidate.linkedin}" target="_blank" class="linkedin-link">
-                    <i data-lucide="linkedin" style="width: 16px;"></i>
-                    Perfil
-                </a>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="${candidate.linkedin}" target="_blank" class="linkedin-link"><i data-lucide="linkedin" style="width: 14px;"></i></a>
+                    <button class="btn-search" style="height: auto; padding: 0.4rem 0.8rem; font-size: 0.75rem; background: ${isSaved ? '#4CAF50' : 'var(--darker)'}" onclick="saveCandidate(${index})">
+                        ${isSaved ? 'Salvo' : 'Salvar'}
+                    </button>
+                </div>
             </td>
         `;
         tableBody.appendChild(row);
     });
-    
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+    if (window.lucide) window.lucide.createIcons();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderCandidates([]);
+    showSection('dashboard');
     
     const searchBtn = document.getElementById('btn-search');
-    const jobInput = document.getElementById('job-description');
-
     searchBtn.addEventListener('click', async () => {
-        const query = jobInput.value.trim();
+        const query = document.getElementById('job-description').value.trim();
         if (!query) return;
         
-        // Visual feedback
         searchBtn.disabled = true;
-        searchBtn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Buscando na Internet...';
-        window.lucide.createIcons();
+        searchBtn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Buscando...';
+        if (window.lucide) window.lucide.createIcons();
         
         try {
-            // Chamada para a nossa API Serverless na Vercel
             const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
             const results = await response.json();
-            
-            if (results.error) {
-                alert("Erro na busca: " + results.error);
-                renderCandidates([]);
-            } else {
-                renderCandidates(results);
-            }
+            renderCandidates(results);
         } catch (error) {
-            console.error("Search failed:", error);
-            alert("Falha ao conectar com o serviço de busca.");
-            renderCandidates([]);
+            console.error(error);
         } finally {
             searchBtn.disabled = false;
             searchBtn.innerHTML = '<i data-lucide="zap"></i> Rankear';
-            window.lucide.createIcons();
+            if (window.lucide) window.lucide.createIcons();
         }
     });
 });
-
-// Animation style
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-    .animate-spin {
-        animation: spin 1s linear infinite;
-    }
-`;
-document.head.appendChild(style);

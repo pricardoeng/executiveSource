@@ -344,27 +344,29 @@ td {
     font-size: 0.9rem;
 }
 
-.badge-match {
-    background: var(--primary-light);
-    color: var(--primary);
+.badge-closed {
+    background: var(--grey-200);
+    color: var(--grey-500);
     font-weight: 700;
     padding: 0.5rem 1.2rem;
     border-radius: 100px;
 }
 
-.rank-pill {
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
-    box-shadow: var(--shadow-md);
+.active-vaga-card {
+    border-color: var(--primary) !important;
+    background: var(--primary-light) !important;
+    box-shadow: 0 10px 30px -10px var(--primary-glow) !important;
 }
 
 .linkedin-link {
     background: var(--grey-100);
-    padding: 0.8rem 1.5rem;
-    border-radius: 100px;
+    padding: 0.8rem;
+    border-radius: 50%;
     color: var(--dark);
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .linkedin-link:hover {

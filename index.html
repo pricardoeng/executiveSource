@@ -33,27 +33,21 @@
             
             <nav class="nav-links">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link active" onclick="showSection('dashboard')">
                         <i data-lucide="layout-dashboard"></i>
                         Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link" onclick="showSection('vagas')">
+                        <i data-lucide="briefcase"></i>
+                        Minhas Vagas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('busca')">
                         <i data-lucide="search"></i>
                         Busca de Talentos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i data-lucide="users"></i>
-                        Minhas Listas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i data-lucide="briefcase"></i>
-                        Vagas Abertas
                     </a>
                 </li>
                 <li class="nav-item">
@@ -89,86 +83,112 @@
                 </div>
             </header>
 
-            <!-- Stats Grid -->
-            <section class="stats-grid">
-                <div class="stat-card animate-fade-in">
-                    <div class="stat-icon"><i data-lucide="briefcase"></i></div>
-                    <div class="stat-value" id="stat-vagas">0</div>
-                    <div class="stat-label">Vagas Abertas</div>
-                </div>
-                <div class="stat-card animate-fade-in delay-1">
-                    <div class="stat-icon"><i data-lucide="users"></i></div>
-                    <div class="stat-value" id="stat-candidatos">0</div>
-                    <div class="stat-label">Candidatos Mapeados</div>
-                </div>
-                <div class="stat-card animate-fade-in delay-2">
-                    <div class="stat-icon"><i data-lucide="trending-up"></i></div>
-                    <div class="stat-value" id="stat-match">0%</div>
-                    <div class="stat-label">Taxa de Match</div>
-                </div>
-                <div class="stat-card animate-fade-in delay-3">
-                    <div class="stat-icon" style="background-color: rgba(76, 175, 80, 0.1); color: #4CAF50;"><i data-lucide="check-circle"></i></div>
-                    <div class="stat-value" id="stat-contratacoes">0</div>
-                    <div class="stat-label">Contratações Este Mês</div>
-                </div>
-            </section>
-
-            <!-- Search Section -->
-            <section class="search-container animate-fade-in">
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                    <i data-lucide="sparkles" style="color: var(--primary);"></i>
-                    Busca Inteligente de Executivos
-                </h3>
-                <div class="search-grid">
-                    <div class="input-group">
-                        <label for="job-description">Descrição da Vaga / Requisitos</label>
-                        <input type="text" id="job-description" placeholder="Ex: Diretor de Tecnologia com experiência em escala de produto...">
+            <!-- Dashboard Section -->
+            <div id="section-dashboard">
+                <!-- Stats Grid -->
+                <section class="stats-grid">
+                    <div class="stat-card animate-fade-in">
+                        <div class="stat-icon"><i data-lucide="briefcase"></i></div>
+                        <div class="stat-value" id="stat-vagas">0</div>
+                        <div class="stat-label">Vagas Abertas</div>
                     </div>
-                    <div class="input-group">
-                        <label for="seniority">Senioridade</label>
-                        <select id="seniority">
-                            <option value="c-level">C-Level / Board</option>
-                            <option value="vp">Vice Presidente</option>
-                            <option value="director">Diretor</option>
-                            <option value="manager">Gerente Senior</option>
-                        </select>
+                    <div class="stat-card animate-fade-in delay-1">
+                        <div class="stat-icon"><i data-lucide="users"></i></div>
+                        <div class="stat-value" id="stat-candidatos">0</div>
+                        <div class="stat-label">Candidatos Mapeados</div>
                     </div>
-                    <button class="btn-search" id="btn-search">
-                        <i data-lucide="zap"></i>
-                        Rankear
-                    </button>
-                </div>
-            </section>
+                    <div class="stat-card animate-fade-in delay-2">
+                        <div class="stat-icon"><i data-lucide="trending-up"></i></div>
+                        <div class="stat-value" id="stat-match">0%</div>
+                        <div class="stat-label">Taxa de Match</div>
+                    </div>
+                    <div class="stat-card animate-fade-in delay-3">
+                        <div class="stat-icon" style="background-color: rgba(76, 175, 80, 0.1); color: #4CAF50;"><i data-lucide="check-circle"></i></div>
+                        <div class="stat-value" id="stat-contratacoes">0</div>
+                        <div class="stat-label">Contratações Este Mês</div>
+                    </div>
+                </section>
 
-            <!-- Results Section -->
-            <section class="results-section animate-fade-in delay-1">
-                <div class="results-header">
-                    <h3>Resultados do Ranking</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn-search" style="background: var(--grey-100); color: var(--dark); border: 1px solid var(--grey-200);">
-                            <i data-lucide="download"></i> Exportar CSV
+                <!-- Current Vaga Context -->
+                <div id="vaga-context-banner" style="display: none; margin-bottom: 2rem; background: var(--primary-light); padding: 1rem 2rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span style="font-size: 0.8rem; color: var(--primary-dark); font-weight: 600; text-transform: uppercase;">Vaga Ativa:</span>
+                        <h3 id="active-vaga-name" style="color: var(--darker);">Nenhuma selecionada</h3>
+                    </div>
+                    <button class="btn-search" style="height: auto; padding: 0.5rem 1rem; font-size: 0.8rem; background: var(--darker);" onclick="showSection('vagas')">Trocar Vaga</button>
+                </div>
+            </div>
+
+            <!-- Vagas Section -->
+            <div id="section-vagas" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Gerenciar Vagas</h2>
+                    <button class="btn-search" onclick="createNewVaga()">+ Nova Vaga</button>
+                </div>
+                <div id="vagas-list-grid" class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                    <!-- Vagas cards will be injected here -->
+                </div>
+            </div>
+
+            <!-- Busca Section -->
+            <div id="section-busca" style="display: none;">
+                <!-- Search Section -->
+                <section class="search-container animate-fade-in">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="sparkles" style="color: var(--primary);"></i>
+                        Busca Inteligente de Executivos
+                    </h3>
+                    <div class="search-grid">
+                        <div class="input-group">
+                            <label for="job-description">Descrição da Vaga / Requisitos</label>
+                            <input type="text" id="job-description" placeholder="Ex: Diretor de Tecnologia com experiência em escala de produto...">
+                        </div>
+                        <div class="input-group">
+                            <label for="seniority">Senioridade</label>
+                            <select id="seniority">
+                                <option value="c-level">C-Level / Board</option>
+                                <option value="vp">Vice Presidente</option>
+                                <option value="director">Diretor</option>
+                                <option value="manager">Gerente Senior</option>
+                            </select>
+                        </div>
+                        <button class="btn-search" id="btn-search">
+                            <i data-lucide="zap"></i>
+                            Rankear
                         </button>
                     </div>
-                </div>
-                
-                <div class="table-container">
-                    <table id="candidates-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 80px;">Rank</th>
-                                <th>Executivo</th>
-                                <th>Empresa Atual</th>
-                                <th>Match Score</th>
-                                <th>Experiência</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="candidates-body">
-                            <!-- Data will be injected by script.js -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section animate-fade-in delay-1">
+                    <div class="results-header">
+                        <h3>Resultados da Busca Real-Time</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-search" style="background: var(--grey-100); color: var(--dark); border: 1px solid var(--grey-200);">
+                                <i data-lucide="download"></i> Exportar CSV
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="candidates-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">Rank</th>
+                                    <th>Executivo</th>
+                                    <th>Empresa Atual</th>
+                                    <th>Match Score</th>
+                                    <th>Experiência</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="candidates-body">
+                                <!-- Data will be injected by script.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
 
