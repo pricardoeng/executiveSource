@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgood | Busca de Executivos de Alta Performance</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <span>for</span><span>good</span>
+                </div>
+                <p style="font-size: 0.6rem; color: var(--grey-500); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px;">Busca de Executivos</p>
+            </div>
+            
+            <nav class="nav-links">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i data-lucide="layout-dashboard"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i data-lucide="search"></i>
+                        Busca de Talentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i data-lucide="users"></i>
+                        Minhas Listas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i data-lucide="briefcase"></i>
+                        Vagas Abertas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i data-lucide="bar-chart-3"></i>
+                        Relatórios
+                    </a>
+                </li>
+            </nav>
+            
+            <div class="nav-footer" style="padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                <a href="#" class="nav-link">
+                    <i data-lucide="settings"></i>
+                    Configurações
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Executive Search Dashboard</h1>
+                    <p>Encontre os melhores executivos com base em IA e dados do LinkedIn.</p>
+                </div>
+                
+                <div class="user-profile">
+                    <div style="text-align: right;">
+                        <span style="display: block; font-weight: 600; font-size: 0.9rem;">Paulo Ricardo</span>
+                        <span style="font-size: 0.75rem; color: var(--grey-600);">Recruiter Lead</span>
+                    </div>
+                    <div class="avatar">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Paulo" alt="User Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card animate-fade-in">
+                    <div class="stat-icon"><i data-lucide="briefcase"></i></div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Vagas Abertas</div>
+                </div>
+                <div class="stat-card animate-fade-in delay-1">
+                    <div class="stat-icon"><i data-lucide="users"></i></div>
+                    <div class="stat-value">1.2k</div>
+                    <div class="stat-label">Candidatos Mapeados</div>
+                </div>
+                <div class="stat-card animate-fade-in delay-2">
+                    <div class="stat-icon"><i data-lucide="trending-up"></i></div>
+                    <div class="stat-value">96%</div>
+                    <div class="stat-label">Taxa de Match</div>
+                </div>
+                <div class="stat-card animate-fade-in delay-3">
+                    <div class="stat-icon" style="background-color: rgba(76, 175, 80, 0.1); color: #4CAF50;"><i data-lucide="check-circle"></i></div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Contratações Este Mês</div>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section class="search-container animate-fade-in">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="sparkles" style="color: var(--primary);"></i>
+                    Busca Inteligente de Executivos
+                </h3>
+                <div class="search-grid">
+                    <div class="input-group">
+                        <label for="job-description">Descrição da Vaga / Requisitos</label>
+                        <input type="text" id="job-description" placeholder="Ex: Diretor de Tecnologia com experiência em escala de produto...">
+                    </div>
+                    <div class="input-group">
+                        <label for="seniority">Senioridade</label>
+                        <select id="seniority">
+                            <option value="c-level">C-Level / Board</option>
+                            <option value="vp">Vice Presidente</option>
+                            <option value="director">Diretor</option>
+                            <option value="manager">Gerente Senior</option>
+                        </select>
+                    </div>
+                    <button class="btn-search" id="btn-search">
+                        <i data-lucide="zap"></i>
+                        Rankear
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section animate-fade-in delay-1">
+                <div class="results-header">
+                    <h3>Resultados do Ranking</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn-search" style="background: var(--grey-100); color: var(--dark); border: 1px solid var(--grey-200);">
+                            <i data-lucide="download"></i> Exportar CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="candidates-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Rank</th>
+                                <th>Executivo</th>
+                                <th>Empresa Atual</th>
+                                <th>Match Score</th>
+                                <th>Experiência</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidates-body">
+                            <!-- Data will be injected by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
