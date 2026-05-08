@@ -3,6 +3,17 @@ const candidates = []; // Base limpa para busca real
 function renderCandidates(data) {
     const tableBody = document.getElementById('candidates-body');
     
+    // Update Stats
+    document.getElementById('stat-candidatos').textContent = data.length;
+    if (data.length > 0) {
+        const avgMatch = Math.round(data.reduce((acc, curr) => acc + curr.match, 0) / data.length);
+        document.getElementById('stat-match').textContent = `${avgMatch}%`;
+        document.getElementById('stat-vagas').textContent = "1"; // Simula 1 vaga ativa para a busca
+    } else {
+        document.getElementById('stat-match').textContent = `0%`;
+        document.getElementById('stat-vagas').textContent = "0";
+    }
+
     if (data.length === 0) {
         tableBody.innerHTML = `
             <tr>
