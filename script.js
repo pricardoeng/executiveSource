@@ -1,53 +1,53 @@
 const candidates = [
     {
         id: 1,
-        name: "Mariana Silva",
-        title: "Chief Technology Officer",
-        company: "TechFlow Solutions",
-        experience: "15+ anos em engenharia e escala global",
-        match: 98,
-        linkedin: "https://linkedin.com/in/mariana-silva",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mariana"
+        name: "Eric Young",
+        title: "Chief Technology Officer (CTO)",
+        company: "Nubank",
+        experience: "Liderança global de engenharia e escala financeira",
+        match: 99,
+        linkedin: "https://linkedin.com/in/eric-young",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Eric"
     },
     {
         id: 2,
-        name: "Carlos Eduardo",
-        title: "VP of Product",
-        company: "Innovate Labs",
-        experience: "12 anos liderando times multidisciplinares",
-        match: 94,
-        linkedin: "https://linkedin.com/in/carlos-eduardo",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos"
+        name: "André Fatala",
+        title: "VP of Platform",
+        company: "Magazine Luiza",
+        experience: "Arquiteto do ecossistema digital Luizalabs",
+        match: 96,
+        linkedin: "https://linkedin.com/in/andre-fatala",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Andre"
     },
     {
         id: 3,
-        name: "Beatriz Santos",
-        title: "Director of Engineering",
-        company: "DataPulse",
-        experience: "Ex-Google, 10 anos em infraestrutura",
-        match: 91,
-        linkedin: "https://linkedin.com/in/beatriz-santos",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Beatriz"
+        name: "Ricardo Guerra",
+        title: "Chief Information Officer (CIO)",
+        company: "Itaú Unibanco",
+        experience: "Líder de transformação tecnológica e bancária",
+        match: 94,
+        linkedin: "https://linkedin.com/in/ricardo-guerra",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ricardo"
     },
     {
         id: 4,
-        name: "Roberto Almeida",
-        title: "Chief Operating Officer",
-        company: "Global Logistics",
-        experience: "Especialista em M&A e Expansão Latam",
-        match: 87,
-        linkedin: "https://linkedin.com/in/roberto-almeida",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Roberto"
+        name: "Daniel Rabinovich",
+        title: "Chief Operating Officer (COO)",
+        company: "Mercado Livre",
+        experience: "Especialista em operações e tecnologia de e-commerce",
+        match: 92,
+        linkedin: "https://linkedin.com/in/daniel-rabinovich",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Daniel"
     },
     {
         id: 5,
-        name: "Fernanda Costa",
-        title: "Head of Growth",
-        company: "ScaleUp Co",
-        experience: "8 anos em SaaS e estratégias PLG",
-        match: 84,
-        linkedin: "https://linkedin.com/in/fernanda-costa",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fernanda"
+        name: "Ariel Szarfsztejn",
+        title: "CEO (as of 2026)",
+        company: "Mercado Livre",
+        experience: "Liderança executiva e estratégica",
+        match: 89,
+        linkedin: "https://linkedin.com/in/ariel-szarfsztejn",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ariel"
     }
 ];
 
