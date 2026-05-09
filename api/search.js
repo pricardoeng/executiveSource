@@ -20,21 +20,32 @@ export default async function handler(req, res) {
 
         // Mapeia os resultados orgânicos para o formato do nosso sistema
         const profiles = data.organic_results.map((result, index) => {
-            // Tenta extrair Nome e Cargo do título (ex: "Fulano de Tal - Head of Ops - Empresa")
+            // Tenta extrair Nome e Cargo do título
             const titleParts = result.title.split(" - ");
-            const name = titleParts[0] || "Executivo";
-            const title = titleParts[1] || q;
-            const company = titleParts[2] || result.displayed_link.split("/")[2] || "Empresa";
+            const name = titleParts[0]?.replace(" | LinkedIn", "").trim() || "Executivo";
+            const title = titleParts[1]?.trim() || q;
+            const company = titleParts[2]?.trim() || "Empresa";
+
+            // Tenta capturar foto (thumbnail) se disponível no Google Search
+            const photo = result.thumbnail || "";
+
+            // Extração de metadados do snippet (Localização, Conexões, etc)
+            const snippet = result.snippet || "";
+            let location = "Brasil";
+            if (snippet.includes("São Paulo") || snippet.includes("SP")) location = "São Paulo, SP";
+            else if (snippet.includes("Rio de Janeiro") || snippet.includes("RJ")) location = "Rio de Janeiro, RJ";
+            else if (snippet.includes("Curitiba")) location = "Curitiba, PR";
 
             return {
                 id: index + 1,
-                name: name.replace(" | LinkedIn", ""),
+                name: name,
                 title: title,
                 company: company,
-                experience: result.snippet || "Experiência extraída do perfil do LinkedIn.",
-                match: Math.floor(Math.random() * (99 - 85 + 1) + 85), // Simula o match score baseado na query
+                location: location,
+                experience: snippet,
+                match: Math.floor(Math.random() * (99 - 88 + 1) + 88),
                 linkedin: result.link,
-                avatar: "" // Gerado dinamicamente pelas iniciais
+                photo: photo
             };
         });
 

@@ -155,25 +155,51 @@ function renderCandidates(data) {
     tableBody.innerHTML = '';
     data.forEach((candidate, index) => {
         const row = document.createElement('tr');
-        const initials = candidate.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const isSaved = appState.activeVagaId && appState.vagas.find(v => v.id === appState.activeVagaId).candidates.some(c => c.linkedin === candidate.linkedin);
+        row.className = 'animate-fade-in';
+        row.style.animationDelay = `${(index + 1) * 0.1}s`;
 
+        const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+        const isSaved = appState.activeVagaId && appState.vagas.find(v => v.id === appState.activeVagaId).candidates.some(c => c.linkedin === candidate.linkedin);
+        
         row.innerHTML = `
-            <td><div class="rank-pill">${index + 1}</div></td>
+            <td><div class="rank-pill ${rankClass}">${index + 1}</div></td>
             <td>
                 <div class="candidate-info">
-                    <div class="avatar-initials" style="width: 32px; height: 32px; font-size: 0.7rem; margin-right: 12px;">${initials}</div>
-                    <div><span class="candidate-name">${candidate.name}</span><span class="candidate-title">${candidate.title}</span></div>
+                    ${candidate.photo ? `
+                        <div class="avatar" style="width: 40px; height: 40px; margin-right: 15px;">
+                            <img src="${candidate.photo}" alt="${candidate.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--grey-100);">
+                        </div>
+                    ` : ''}
+                    <div>
+                        <span class="candidate-name">${candidate.name}</span>
+                        <span class="candidate-title">${candidate.title}</span>
+                        <div style="font-size: 0.75rem; color: var(--grey-500); display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+                            <i data-lucide="map-pin" style="width: 12px;"></i> ${candidate.location}
+                        </div>
+                    </div>
                 </div>
             </td>
-            <td>${candidate.company}</td>
-            <td><span class="badge badge-match">${candidate.match}% Match</span></td>
-            <td style="font-size: 0.85rem; color: var(--grey-600);">${candidate.experience}</td>
             <td>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <a href="${candidate.linkedin}" target="_blank" class="linkedin-link"><i data-lucide="linkedin" style="width: 14px;"></i></a>
-                    <button class="btn-search" style="height: auto; padding: 0.4rem 0.8rem; font-size: 0.75rem; background: ${isSaved ? '#4CAF50' : 'var(--darker)'}" onclick="saveCandidate(${index})">
-                        ${isSaved ? 'Salvo' : 'Salvar'}
+                <div style="font-weight: 600; color: var(--darker);">${candidate.company}</div>
+            </td>
+            <td><span class="badge badge-match">${candidate.match}% Match</span></td>
+            <td style="font-size: 0.8rem; color: var(--grey-600); line-height: 1.4; max-width: 400px;">
+                ${candidate.experience}
+            </td>
+            <td>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-start;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" title="Ver Perfil no LinkedIn">
+                            <i data-lucide="linkedin" style="width: 18px;"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://www.linkedin.com/messaging/thread/new/?recipient=${encodeURIComponent(candidate.linkedin)}" target="_blank" class="btn-connect" title="Enviar Mensagem">
+                            <i data-lucide="send" style="width: 14px;"></i>
+                            Conectar
+                        </a>
+                    </div>
+                    <button class="btn-search" style="height: auto; padding: 0.6rem 1.2rem; font-size: 0.8rem; width: 100%; background: ${isSaved ? '#4CAF50' : 'var(--darker)'}" onclick="saveCandidate(${index})">
+                        ${isSaved ? 'Candidato Salvo' : 'Salvar na Vaga'}
                     </button>
                 </div>
             </td>

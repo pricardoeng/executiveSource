@@ -358,21 +358,46 @@ td {
     box-shadow: 0 10px 30px -10px var(--primary-glow) !important;
 }
 
-.linkedin-link {
-    background: var(--grey-100);
-    padding: 0.8rem;
-    border-radius: 50%;
-    color: var(--dark);
-    transition: var(--transition);
+.linkedin-link-premium {
+    background: #eef3f8;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    color: #0077B5;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 0.6rem;
+    transition: var(--transition);
+    border: 1px solid transparent;
 }
 
-.linkedin-link:hover {
+.linkedin-link-premium:hover {
     background: #0077B5;
     color: white;
+    transform: translateY(-2px);
+}
+
+.btn-connect {
+    background: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    color: var(--grey-600);
+    font-weight: 600;
+    font-size: 0.85rem;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: var(--transition);
+    border: 1.5px solid var(--grey-300);
+}
+
+.btn-connect:hover {
+    background: var(--grey-100);
+    border-color: var(--grey-400);
+    color: var(--darker);
     transform: translateY(-2px);
 }
 
