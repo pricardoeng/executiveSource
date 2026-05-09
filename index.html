@@ -122,6 +122,32 @@
                         <button class="btn-search" style="height: auto; padding: 0.8rem 1.5rem; background: var(--darker);" onclick="showSection('vagas')">Trocar Vaga</button>
                     </div>
                 </div>
+
+                <!-- Persistent Consultation Table -->
+                <section id="saved-candidates-section" class="results-section animate-fade-in" style="display: none;">
+                    <div class="results-header">
+                        <h3>Candidatos Mapeados para esta Vaga</h3>
+                        <button class="btn-search" style="background: white; color: var(--dark); border: 1px solid var(--grey-200); font-size: 0.8rem;" onclick="exportVagaData()">
+                            <i data-lucide="download"></i> Exportar Dados da Vaga
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Executivo</th>
+                                    <th>Empresa</th>
+                                    <th>Match</th>
+                                    <th>Status / Nota</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="saved-candidates-body">
+                                <!-- Persistent data will be here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
 
             <!-- Vagas Section -->

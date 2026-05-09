@@ -108,17 +108,75 @@ function updateDashboardStats() {
         document.getElementById('active-vaga-name').textContent = activeVaga.name;
         document.getElementById('search-active-vaga-label').textContent = activeVaga.name;
         
-        // Se houver candidatos na vaga ativa, mostra o match médio dela
+        // Render Saved Candidates Table in Dashboard
+        const savedTableSection = document.getElementById('saved-candidates-section');
+        const savedTableBody = document.getElementById('saved-candidates-body');
+        
         if (activeVaga.candidates && activeVaga.candidates.length > 0) {
+            savedTableSection.style.display = 'block';
+            savedTableBody.innerHTML = '';
+            
+            activeVaga.candidates.forEach((candidate, idx) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="candidate-info">
+                            <div>
+                                <span class="candidate-name">${candidate.name}</span>
+                                <span class="candidate-title">${candidate.title}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${candidate.company}</td>
+                    <td><span class="badge badge-match">${candidate.match}%</span></td>
+                    <td><span style="font-size: 0.8rem; color: var(--grey-500);">Mapeado via Busca Ativa</span></td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" style="padding: 0.4rem; border-radius: 5px;">
+                                <i data-lucide="linkedin" style="width: 14px;"></i>
+                            </a>
+                            <button class="btn-search" style="background: #ff4d4d; padding: 0.4rem; border-radius: 5px; height: auto;" onclick="removeCandidate('${activeVaga.id}', '${candidate.linkedin}')">
+                                <i data-lucide="trash-2" style="width: 14px;"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                savedTableBody.appendChild(row);
+            });
+            
             const avgMatch = Math.round(activeVaga.candidates.reduce((acc, curr) => acc + curr.match, 0) / activeVaga.candidates.length);
             document.getElementById('stat-match').textContent = `${avgMatch}%`;
         } else {
+            savedTableSection.style.display = 'none';
             document.getElementById('stat-match').textContent = '0%';
         }
     } else {
         banner.style.display = 'none';
+        document.getElementById('saved-candidates-section').style.display = 'none';
         document.getElementById('stat-match').textContent = '0%';
     }
+    if (window.lucide) window.lucide.createIcons();
+}
+
+function removeCandidate(vagaId, linkedinUrl) {
+    if (!confirm("Remover este candidato da vaga?")) return;
+    const vaga = appState.vagas.find(v => v.id === vagaId);
+    vaga.candidates = vaga.candidates.filter(c => c.linkedin !== linkedinUrl);
+    saveState();
+    updateDashboardStats();
+}
+
+function exportVagaData() {
+    const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+    if (!activeVaga) return;
+    
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activeVaga, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `vaga_${activeVaga.name.replace(/\s+/g, '_')}.json`);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 // Candidate Saving
