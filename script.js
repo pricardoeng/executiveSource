@@ -98,6 +98,9 @@ function getAvatarHTML(candidate) {
     return `<div class="avatar-circle">${initials}</div>`;
 }
 
+// NEW LINKEDIN ICON SVG (Square blue as requested)
+const linkedinIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>`;
+
 // Dashboard Stats & Saved Table
 function updateDashboardStats() {
     const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
@@ -135,7 +138,7 @@ function updateDashboardStats() {
                     <td>
                         <div class="action-buttons-group" style="justify-content: flex-end;">
                             <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin" title="LinkedIn">
-                                <i data-lucide="linkedin"></i>
+                                ${linkedinIconSVG}
                             </a>
                             <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon" title="Enviar Convite">
                                 <i data-lucide="send"></i>
@@ -188,7 +191,7 @@ function renderBancoTalentos() {
             <td><span class="badge badge-match">${candidate.match}%</span></td>
             <td>
                 <div class="action-buttons-group" style="justify-content: flex-end;">
-                    <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin"><i data-lucide="linkedin"></i></a>
+                    <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin">${linkedinIconSVG}</a>
                     <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon"><i data-lucide="send"></i></button>
                     <button class="btn-icon-action" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: transparent;" onclick="removeFromBank('${candidate.linkedin}')"><i data-lucide="trash-2"></i></button>
                 </div>
@@ -270,7 +273,7 @@ function renderCandidates(data) {
                     <button class="btn-icon-action btn-save" title="Salvar" onclick="saveCandidate(${index})" style="background: ${isSaved ? '#4CAF50' : 'var(--darker)'}">
                         <i data-lucide="${isSaved ? 'check' : 'bookmark'}"></i>
                     </button>
-                    <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin" title="LinkedIn"><i data-lucide="linkedin"></i></a>
+                    <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin" title="LinkedIn">${linkedinIconSVG}</a>
                     <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon" title="Conectar"><i data-lucide="send"></i></button>
                 </div>
             </td>
