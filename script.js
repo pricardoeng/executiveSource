@@ -98,16 +98,18 @@ function updateDashboardStats() {
     const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
     const banner = document.getElementById('vaga-context-banner');
     
-    // Global Stats
+    // Global Stats - Total de todas as vagas
+    const totalCandidatosGlobal = appState.vagas.reduce((acc, v) => acc + (v.candidates ? v.candidates.length : 0), 0);
     document.getElementById('stat-vagas').textContent = appState.vagas.filter(v => v.status === 'Aberta').length;
+    document.getElementById('stat-candidatos').textContent = totalCandidatosGlobal;
     
     if (activeVaga) {
         banner.style.display = 'flex';
         document.getElementById('active-vaga-name').textContent = activeVaga.name;
         document.getElementById('search-active-vaga-label').textContent = activeVaga.name;
-        document.getElementById('stat-candidatos').textContent = activeVaga.candidates.length;
         
-        if (activeVaga.candidates.length > 0) {
+        // Se houver candidatos na vaga ativa, mostra o match médio dela
+        if (activeVaga.candidates && activeVaga.candidates.length > 0) {
             const avgMatch = Math.round(activeVaga.candidates.reduce((acc, curr) => acc + curr.match, 0) / activeVaga.candidates.length);
             document.getElementById('stat-match').textContent = `${avgMatch}%`;
         } else {
@@ -115,7 +117,6 @@ function updateDashboardStats() {
         }
     } else {
         banner.style.display = 'none';
-        document.getElementById('stat-candidatos').textContent = '0';
         document.getElementById('stat-match').textContent = '0%';
     }
 }
@@ -138,6 +139,7 @@ function saveCandidate(index) {
 
     vaga.candidates.push(candidate);
     saveState();
+    updateDashboardStats(); // Atualiza os números no topo imediatamente
     alert(`${candidate.name} salvo na vaga ${vaga.name}!`);
     renderCandidates(appState.currentSearchResults);
 }
