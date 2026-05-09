@@ -45,6 +45,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('banco')">
+                        <i data-lucide="database"></i>
+                        Banco de Talentos
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" onclick="showSection('busca')">
                         <i data-lucide="search"></i>
                         Busca de Talentos
@@ -161,16 +167,50 @@
                 </div>
             </div>
 
+            <!-- Banco de Talentos Section -->
+            <div id="section-banco" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <div>
+                        <h2 style="font-size: 1.8rem; color: var(--darker);">Banco de Talentos</h2>
+                        <p style="color: var(--grey-500);">Sua biblioteca particular de executivos mapeados.</p>
+                    </div>
+                    <button class="btn-search" style="background: white; color: var(--dark); border: 1px solid var(--grey-200);" onclick="exportAllTalents()">
+                        <i data-lucide="download"></i> Exportar Banco Completo
+                    </button>
+                </div>
+                
+                <section class="results-section animate-fade-in">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Executivo</th>
+                                    <th>Empresa / Cargo</th>
+                                    <th>Match Médio</th>
+                                    <th>Data de Cadastro</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="banco-talentos-body">
+                                <!-- Global talent bank will be here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
             <!-- Busca Section -->
             <div id="section-busca" style="display: none;">
-                <div id="search-vaga-context" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--grey-600); background: white; padding: 0.8rem 1.5rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--grey-200);">
+                <div id="search-vaga-context" style="margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--grey-600); background: white; padding: 0.8rem 1.5rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--grey-200); box-shadow: var(--shadow-sm);">
                     <i data-lucide="info" style="width: 16px; color: var(--primary);"></i>
-                    Salvando candidatos para: <strong id="search-active-vaga-label" style="color: var(--darker);">Nenhuma vaga selecionada</strong>
+                    Vínculo Automático: <strong id="search-active-vaga-label" style="color: var(--darker);">Nenhuma vaga selecionada</strong>
                 </div>
                 <!-- Search Section -->
-                <section class="search-container animate-fade-in">
-                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <i data-lucide="sparkles" style="color: var(--primary);"></i>
+                <section class="search-container animate-fade-in" style="background: linear-gradient(135deg, white 0%, var(--primary-light) 100%); border: 1px solid rgba(0, 206, 209, 0.2);">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+                        <div style="background: var(--primary); color: white; padding: 8px; border-radius: 12px; display: flex;">
+                            <i data-lucide="sparkles" style="width: 20px;"></i>
+                        </div>
                         Busca Inteligente de Executivos
                     </h3>
                     <div class="search-grid">
