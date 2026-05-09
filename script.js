@@ -269,9 +269,14 @@ function renderCandidates(data) {
                     </div>
                 </div>
             </td>
-            <td><div style="font-weight: 600; color: var(--grey-600);">${candidate.company}</div></td>
+            <td><div style="font-weight: 600; color: var(--darker); font-size: 0.9rem;">${candidate.company}</div></td>
             <td style="width: 100px;"><span class="badge badge-match">${candidate.match}%</span></td>
-            <td style="font-size: 0.75rem; color: var(--grey-500); line-height: 1.4; max-width: 350px;">${candidate.experience}</td>
+            <td>
+                <div class="experience-cell">
+                    <div class="experience-text">${candidate.experience}</div>
+                    <div class="experience-preview">${candidate.experience}</div>
+                </div>
+            </td>
             <td style="width: 150px;">
                 <div class="action-buttons-group">
                     <button class="btn-icon-action btn-save" title="Salvar" onclick="saveCandidate(${index})" style="background: ${isSaved ? '#4CAF50' : 'var(--darker)'}">

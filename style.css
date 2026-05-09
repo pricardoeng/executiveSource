@@ -460,31 +460,90 @@ tr:hover td {
     transform: translateY(-2px);
 }
 
+/* Experience Preview Tooltip */
+.experience-cell {
+    position: relative;
+    cursor: help;
+}
+
+.experience-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--grey-500);
+    transition: var(--transition);
+}
+
+.experience-cell:hover .experience-preview {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.experience-preview {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    width: 350px;
+    background: var(--darker);
+    color: white;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.experience-preview::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    border: 8px solid transparent;
+    border-top-color: var(--darker);
+}
+
+/* Enhanced Action Buttons */
 .action-buttons-group {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.6rem;
     align-items: center;
 }
 
 .btn-icon-action {
-    width: 42px;
-    height: 42px;
+    position: relative;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid var(--grey-200);
     background: white;
-    color: var(--grey-600);
+    color: var(--grey-500);
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.2s ease;
 }
 
 .btn-icon-action:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    background: var(--grey-50);
-    color: var(--darker);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.btn-icon-action i, .btn-icon-action svg {
+    width: 18px;
+    height: 18px;
 }
 
 .btn-icon-action.btn-save {
