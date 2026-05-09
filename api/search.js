@@ -20,32 +20,27 @@ export default async function handler(req, res) {
 
         // Mapeia os resultados orgânicos para o formato do nosso sistema
         const profiles = data.organic_results.map((result, index) => {
-            // Tenta extrair Nome e Cargo do título
-            const titleParts = result.title.split(" - ");
-            const name = titleParts[0]?.replace(" | LinkedIn", "").trim() || "Executivo";
-            const title = titleParts[1]?.trim() || q;
-            const company = titleParts[2]?.trim() || "Empresa";
+            const parts = result.title.replace(" | LinkedIn", "").split(" - ");
+            const name = parts[0] || "Executivo";
+            const title = parts[1] || q;
+            const company = parts[2] || "N/A";
 
-            // Tenta capturar foto (thumbnail) se disponível no Google Search
-            const photo = result.thumbnail || "";
-
-            // Extração de metadados do snippet (Localização, Conexões, etc)
             const snippet = result.snippet || "";
             let location = "Brasil";
-            if (snippet.includes("São Paulo") || snippet.includes("SP")) location = "São Paulo, SP";
-            else if (snippet.includes("Rio de Janeiro") || snippet.includes("RJ")) location = "Rio de Janeiro, RJ";
-            else if (snippet.includes("Curitiba")) location = "Curitiba, PR";
+            if (snippet.includes(" · ")) {
+                location = snippet.split(" · ")[0];
+            }
 
             return {
                 id: index + 1,
-                name: name,
-                title: title,
-                company: company,
+                name: name.trim(),
+                title: title.trim(),
+                company: company.trim(),
                 location: location,
                 experience: snippet,
                 match: Math.floor(Math.random() * (99 - 88 + 1) + 88),
                 linkedin: result.link,
-                photo: photo
+                photo: result.thumbnail || ""
             };
         });
 

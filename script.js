@@ -277,28 +277,30 @@ function renderCandidates(data) {
         const isSaved = appState.bancoDeTalentos.some(c => c.linkedin === candidate.linkedin);
         
         row.innerHTML = `
-            <td><div class="rank-pill ${rankClass}">${index + 1}</div></td>
+            <td style="width: 60px;"><div class="rank-pill ${rankClass}">${index + 1}</div></td>
             <td>
                 <div class="candidate-info">
-                    ${candidate.photo ? `<div class="avatar" style="width: 40px; height: 40px; margin-right: 15px;"><img src="${candidate.photo}" alt="${candidate.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--grey-100);"></div>` : ''}
+                    ${candidate.photo ? `<div class="avatar" style="width: 50px; height: 50px; margin-right: 15px;"><img src="${candidate.photo}" alt="${candidate.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--grey-100);"></div>` : ''}
                     <div>
-                        <span class="candidate-name" style="display: block;">${candidate.name}</span>
-                        <span class="candidate-title" style="display: block; font-size: 0.75rem;">${candidate.title}</span>
-                        <div style="font-size: 0.75rem; color: var(--grey-500); display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i data-lucide="map-pin" style="width: 12px;"></i> ${candidate.location}</div>
+                        <span class="candidate-name" style="display: block; font-size: 1rem;">${candidate.name}</span>
+                        <span class="candidate-title" style="display: block; font-size: 0.8rem; color: var(--grey-500);">${candidate.title}</span>
+                        <div style="font-size: 0.75rem; color: var(--grey-400); display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i data-lucide="map-pin" style="width: 12px;"></i> ${candidate.location}</div>
                     </div>
                 </div>
             </td>
-            <td><div style="font-weight: 600; color: var(--darker);">${candidate.company}</div></td>
-            <td><span class="badge badge-match">${candidate.match}% Match</span></td>
-            <td style="font-size: 0.8rem; color: var(--grey-600); line-height: 1.4; max-width: 400px;">${candidate.experience}</td>
-            <td>
-                <div style="display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-start;">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" title="Ver Perfil"><i data-lucide="linkedin" style="width: 18px;"></i></a>
-                        <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-connect" title="Conectar"><i data-lucide="send" style="width: 14px;"></i></button>
-                    </div>
-                    <button class="btn-search" style="height: auto; padding: 0.6rem 1.2rem; font-size: 0.8rem; width: 100%; background: ${isSaved ? '#4CAF50' : 'var(--darker)'}" onclick="saveCandidate(${index})">
-                        ${isSaved ? 'No Banco' : 'Salvar no Banco'}
+            <td><div style="font-weight: 600; color: var(--darker); font-size: 0.9rem;">${candidate.company}</div></td>
+            <td style="width: 120px;"><span class="badge badge-match">${candidate.match}% Match</span></td>
+            <td style="font-size: 0.85rem; color: var(--grey-600); line-height: 1.5; padding-right: 2rem;">${candidate.experience}</td>
+            <td style="width: 180px;">
+                <div class="action-buttons-group">
+                    <button class="btn-icon-action btn-save" title="${isSaved ? 'No Banco' : 'Salvar no Banco'}" onclick="saveCandidate(${index})" style="background: ${isSaved ? '#4CAF50' : 'var(--darker)'}">
+                        <i data-lucide="${isSaved ? 'check' : 'bookmark'}"></i>
+                    </button>
+                    <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin" title="Ver LinkedIn">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                    <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon" title="Enviar Convite">
+                        <i data-lucide="send"></i>
                     </button>
                 </div>
             </td>

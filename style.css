@@ -308,14 +308,18 @@ input:focus, select:focus {
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--grey-100);
     overflow: hidden;
+    width: 100%;
 }
 
-.results-header {
-    padding: 2.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--grey-100);
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 th {
@@ -388,26 +392,70 @@ td {
     transform: translateY(-2px);
 }
 
-.btn-connect {
-    background: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    color: var(--grey-600);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    transition: var(--transition);
-    border: 1.5px solid var(--grey-300);
-}
-
 .btn-connect:hover {
     background: var(--grey-100);
     border-color: var(--grey-400);
     color: var(--darker);
     transform: translateY(-2px);
+}
+
+.action-buttons-group {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.btn-icon-action {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid var(--grey-200);
+    background: white;
+    color: var(--grey-600);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon-action:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    background: var(--grey-50);
+    color: var(--darker);
+}
+
+.btn-icon-action.btn-save {
+    background: var(--darker);
+    color: white;
+    border: none;
+}
+
+.btn-icon-action.btn-save:hover {
+    background: var(--primary);
+}
+
+.btn-icon-action.btn-linkedin {
+    background: #eef3f8;
+    color: #0077B5;
+    border-color: #0077B520;
+}
+
+.btn-icon-action.btn-linkedin:hover {
+    background: #0077B5;
+    color: white;
+}
+
+.btn-icon-action.btn-connect-icon {
+    background: white;
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-icon-action.btn-connect-icon:hover {
+    background: var(--primary);
+    color: white;
 }
 
 .btn-clear {
