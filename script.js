@@ -142,6 +142,39 @@ function saveCandidate(index) {
     renderCandidates(appState.currentSearchResults);
 }
 
+function connectToCandidate(name, linkedinUrl) {
+    const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
+    const vagaName = activeVaga ? activeVaga.name : "uma oportunidade estratégica";
+    
+    const message = `Olá ${name.split(' ')[0]}, vi seu perfil e ele é ideal para a vaga de ${vagaName}. Topa conversar?`;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(message).then(() => {
+        // Show a temporary notification
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 20px; right: 20px; background: var(--darker); color: white;
+            padding: 1rem 2rem; border-radius: 12px; z-index: 9999; box-shadow: var(--shadow-lg);
+            font-size: 0.9rem; border-left: 4px solid var(--primary);
+            animation: fadeIn 0.3s ease;
+        `;
+        toast.innerHTML = `
+            <div style="font-weight: 600; margin-bottom: 4px;">Convite Copiado!</div>
+            <div style="font-size: 0.8rem; opacity: 0.8;">Cole a mensagem ao adicionar a nota no LinkedIn.</div>
+        `;
+        document.body.appendChild(toast);
+        
+        // Open LinkedIn after a short delay
+        setTimeout(() => {
+            window.open(linkedinUrl, '_blank');
+            setTimeout(() => toast.remove(), 3000);
+        }, 800);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        window.open(linkedinUrl, '_blank');
+    });
+}
+
 // Search & Render
 function renderCandidates(data) {
     appState.currentSearchResults = data;
@@ -193,10 +226,10 @@ function renderCandidates(data) {
                             <i data-lucide="linkedin" style="width: 18px;"></i>
                             <span>LinkedIn</span>
                         </a>
-                        <a href="https://www.linkedin.com/messaging/thread/new/?recipient=${encodeURIComponent(candidate.linkedin)}" target="_blank" class="btn-connect" title="Enviar Mensagem">
+                        <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-connect" title="Enviar Mensagem">
                             <i data-lucide="send" style="width: 14px;"></i>
                             Conectar
-                        </a>
+                        </button>
                     </div>
                     <button class="btn-search" style="height: auto; padding: 0.6rem 1.2rem; font-size: 0.8rem; width: 100%; background: ${isSaved ? '#4CAF50' : 'var(--darker)'}" onclick="saveCandidate(${index})">
                         ${isSaved ? 'Candidato Salvo' : 'Salvar na Vaga'}
