@@ -335,12 +335,13 @@ th {
     text-align: left; /* Garante alinhamento à esquerda */
 }
 
-/* Larguras fixas para alinhamento perfeito */
-th:nth-child(1), td:nth-child(1) { width: 80px; text-align: center; }
-th:nth-child(2), td:nth-child(2) { width: 35%; }
-th:nth-child(3), td:nth-child(3) { width: 25%; }
-th:nth-child(4), td:nth-child(4) { width: 15%; }
-th:nth-child(5), td:nth-child(5) { width: 180px; text-align: right; }
+/* Larguras fixas para alinhamento perfeito - Experiência PRIORITÁRIA */
+th:nth-child(1), td:nth-child(1) { width: 70px; text-align: center; }
+th:nth-child(2), td:nth-child(2) { width: 25%; }
+th:nth-child(3), td:nth-child(3) { width: 12%; }
+th:nth-child(4), td:nth-child(4) { width: 10%; }
+th:nth-child(5), td:nth-child(5) { width: auto; } /* Experiência ocupa o resto */
+th:nth-child(6), td:nth-child(6) { width: 180px; text-align: right; }
 
 tr {
     transition: var(--transition);

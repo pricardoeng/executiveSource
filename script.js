@@ -230,7 +230,11 @@ async function performSearch() {
 
     try {
         const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        const results = await response.json();
+        let results = await response.json();
+        
+        // ORDENAÇÃO: Garante que os maiores matches fiquem no topo
+        results.sort((a, b) => b.match - a.match);
+        
         renderCandidates(results);
     } catch (error) {
         console.error(error);
