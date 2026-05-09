@@ -6,6 +6,16 @@ let appState = {
     currentSearchResults: []
 };
 
+// FUNÇÃO PARA LIMPAR TUDO (Chamada via console ou botão se necessário)
+function clearAllData() {
+    if (confirm("Isso apagará permanentemente todas as vagas e o banco de talentos. Confirmar?")) {
+        localStorage.clear();
+        appState = { vagas: [], bancoDeTalentos: [], activeVagaId: null, currentSearchResults: [] };
+        saveState();
+        location.reload();
+    }
+}
+
 function saveState() {
     localStorage.setItem('forgood_vagas', JSON.stringify(appState.vagas));
     localStorage.setItem('forgood_banco', JSON.stringify(appState.bancoDeTalentos));
@@ -16,7 +26,8 @@ function saveState() {
 function showSection(sectionId) {
     const sections = ['dashboard', 'vagas', 'busca', 'banco'];
     sections.forEach(s => {
-        document.getElementById(`section-${s}`).style.display = s === sectionId ? 'block' : 'none';
+        const el = document.getElementById(`section-${s}`);
+        if (el) el.style.display = s === sectionId ? 'block' : 'none';
     });
 
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -52,6 +63,7 @@ function createNewVaga() {
     appState.activeVagaId = newVaga.id;
     saveState();
     renderVagasList();
+    updateDashboardStats();
 }
 
 function selectVaga(id) {
@@ -62,6 +74,7 @@ function selectVaga(id) {
 
 function renderVagasList() {
     const container = document.getElementById('vagas-list-grid');
+    if (!container) return;
     container.innerHTML = '';
     appState.vagas.forEach(vaga => {
         const card = document.createElement('div');
@@ -87,40 +100,66 @@ function updateDashboardStats() {
     const activeVaga = appState.vagas.find(v => v.id === appState.activeVagaId);
     const banner = document.getElementById('vaga-context-banner');
     const totalCandidatosGlobal = appState.bancoDeTalentos.length;
-    document.getElementById('stat-vagas').textContent = appState.vagas.filter(v => v.status === 'Aberta').length;
-    document.getElementById('stat-candidatos').textContent = totalCandidatosGlobal;
+    
+    const vCountEl = document.getElementById('stat-vagas');
+    const cCountEl = document.getElementById('stat-candidatos');
+    if (vCountEl) vCountEl.textContent = appState.vagas.filter(v => v.status === 'Aberta').length;
+    if (cCountEl) cCountEl.textContent = totalCandidatosGlobal;
     
     if (activeVaga) {
-        banner.style.display = 'flex';
-        document.getElementById('active-vaga-name').textContent = activeVaga.name;
-        document.getElementById('search-active-vaga-label').textContent = activeVaga.name;
+        if (banner) banner.style.display = 'flex';
+        const activeVagaNameEl = document.getElementById('active-vaga-name');
+        if (activeVagaNameEl) activeVagaNameEl.textContent = activeVaga.name;
+        
         const savedTableSection = document.getElementById('saved-candidates-section');
         const savedTableBody = document.getElementById('saved-candidates-body');
         
         if (activeVaga.candidates && activeVaga.candidates.length > 0) {
-            savedTableSection.style.display = 'block';
-            savedTableBody.innerHTML = '';
-            activeVaga.candidates.forEach((candidate) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><div class="candidate-info"><div><span class="candidate-name">${candidate.name}</span><span class="candidate-title">${candidate.title}</span></div></div></td>
-                    <td>${candidate.company}</td>
-                    <td><span class="badge badge-match">${candidate.match}%</span></td>
-                    <td><span style="font-size: 0.8rem; color: var(--grey-500);">Mapeado via Busca Ativa</span></td>
-                    <td><div style="display: flex; gap: 0.5rem;"><a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" style="padding: 0.4rem; border-radius: 5px;"><i data-lucide="linkedin" style="width: 14px;"></i></a><button class="btn-search" style="background: #ff4d4d; padding: 0.4rem; border-radius: 5px; height: auto;" onclick="removeCandidate('${activeVaga.id}', '${candidate.linkedin}')"><i data-lucide="trash-2" style="width: 14px;"></i></button></div></td>
-                `;
-                savedTableBody.appendChild(row);
-            });
+            if (savedTableSection) savedTableSection.style.display = 'block';
+            if (savedTableBody) {
+                savedTableBody.innerHTML = '';
+                activeVaga.candidates.forEach((candidate) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="candidate-info">
+                                <div>
+                                    <span class="candidate-name" style="display: block;">${candidate.name}</span>
+                                    <span class="candidate-title" style="display: block; font-size: 0.75rem;">${candidate.title}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${candidate.company}</div></td>
+                        <td><span class="badge badge-match">${candidate.match}%</span></td>
+                        <td><span style="font-size: 0.8rem; color: var(--grey-500);">Mapeado via Busca</span></td>
+                        <td>
+                            <div style="display: flex; gap: 0.8rem; align-items: center;">
+                                <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" style="padding: 0.5rem; border-radius: 8px;">
+                                    <i data-lucide="linkedin" style="width: 16px;"></i>
+                                </a>
+                                <button class="btn-search" style="background: #ff4d4d; padding: 0.5rem; border-radius: 8px; height: auto; width: auto; border: none; cursor: pointer; color: white;" onclick="removeCandidate('${activeVaga.id}', '${candidate.linkedin}')">
+                                    <i data-lucide="trash-2" style="width: 16px;"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    savedTableBody.appendChild(row);
+                });
+            }
             const avgMatch = Math.round(activeVaga.candidates.reduce((acc, curr) => acc + curr.match, 0) / activeVaga.candidates.length);
-            document.getElementById('stat-match').textContent = `${avgMatch}%`;
+            const matchEl = document.getElementById('stat-match');
+            if (matchEl) matchEl.textContent = `${avgMatch}%`;
         } else {
-            savedTableSection.style.display = 'none';
-            document.getElementById('stat-match').textContent = '0%';
+            if (savedTableSection) savedTableSection.style.display = 'none';
+            const matchEl = document.getElementById('stat-match');
+            if (matchEl) matchEl.textContent = '0%';
         }
     } else {
-        banner.style.display = 'none';
-        document.getElementById('saved-candidates-section').style.display = 'none';
-        document.getElementById('stat-match').textContent = '0%';
+        if (banner) banner.style.display = 'none';
+        const savedTableSection = document.getElementById('saved-candidates-section');
+        if (savedTableSection) savedTableSection.style.display = 'none';
+        const matchEl = document.getElementById('stat-match');
+        if (matchEl) matchEl.textContent = '0%';
     }
     if (window.lucide) window.lucide.createIcons();
 }
@@ -128,6 +167,7 @@ function updateDashboardStats() {
 // Banco de Talentos Logic
 function renderBancoTalentos() {
     const container = document.getElementById('banco-talentos-body');
+    if (!container) return;
     if (appState.bancoDeTalentos.length === 0) {
         container.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 4rem; color: var(--grey-500);">Seu banco está vazio. Salve candidatos na busca para visualizá-los aqui.</td></tr>';
         return;
@@ -136,14 +176,25 @@ function renderBancoTalentos() {
     appState.bancoDeTalentos.forEach(candidate => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><div class="candidate-info"><div><span class="candidate-name">${candidate.name}</span><span class="candidate-title">${candidate.title}</span></div></div></td>
+            <td>
+                <div class="candidate-info">
+                    <div>
+                        <span class="candidate-name" style="display: block;">${candidate.name}</span>
+                        <span class="candidate-title" style="display: block; font-size: 0.75rem;">${candidate.title}</span>
+                    </div>
+                </div>
+            </td>
             <td><strong>${candidate.company}</strong></td>
             <td><span class="badge badge-match">${candidate.match}%</span></td>
             <td>${candidate.savedAt || new Date().toLocaleDateString()}</td>
             <td>
-                <div style="display: flex; gap: 0.5rem;">
-                    <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" style="padding: 0.5rem; border-radius: 8px;"><i data-lucide="linkedin" style="width: 16px;"></i></a>
-                    <button class="btn-search" style="background: #ff4d4d; padding: 0.5rem; border-radius: 8px; height: auto;" onclick="removeFromBank('${candidate.linkedin}')"><i data-lucide="trash-2" style="width: 16px;"></i></button>
+                <div style="display: flex; gap: 0.8rem; align-items: center;">
+                    <a href="${candidate.linkedin}" target="_blank" class="linkedin-link-premium" style="padding: 0.5rem; border-radius: 8px;">
+                        <i data-lucide="linkedin" style="width: 16px;"></i>
+                    </a>
+                    <button class="btn-search" style="background: #ff4d4d; padding: 0.5rem; border-radius: 8px; height: auto; width: auto; color: white;" onclick="removeFromBank('${candidate.linkedin}')">
+                        <i data-lucide="trash-2" style="width: 16px;"></i>
+                    </button>
                 </div>
             </td>
         `;
@@ -165,12 +216,10 @@ function saveCandidate(index) {
     const candidate = appState.currentSearchResults[index];
     candidate.savedAt = new Date().toLocaleDateString();
 
-    // Save to Global Bank if not already there
     if (!appState.bancoDeTalentos.some(c => c.linkedin === candidate.linkedin)) {
         appState.bancoDeTalentos.push(candidate);
     }
 
-    // Save to Active Vaga if exists
     if (appState.activeVagaId) {
         const vaga = appState.vagas.find(v => v.id === appState.activeVagaId);
         if (!vaga.candidates.some(c => c.linkedin === candidate.linkedin)) {
@@ -182,9 +231,8 @@ function saveCandidate(index) {
     updateDashboardStats();
     renderCandidates(appState.currentSearchResults);
     
-    // Toast Notification
     const toast = document.createElement('div');
-    toast.style.cssText = `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 1rem 2rem; border-radius: 100px; z-index: 10000; box-shadow: var(--shadow-lg); font-weight: 600;`;
+    toast.style.cssText = `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 1rem 2rem; border-radius: 100px; z-index: 10000; box-shadow: var(--shadow-lg); font-weight: 600; animation: fadeInUp 0.3s ease;`;
     toast.textContent = `${candidate.name} salvo com sucesso no banco!`;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2000);
@@ -215,6 +263,7 @@ function connectToCandidate(name, linkedinUrl) {
 function renderCandidates(data) {
     appState.currentSearchResults = data;
     const tableBody = document.getElementById('candidates-body');
+    if (!tableBody) return;
     if (data.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 4rem; color: var(--grey-500);">Nenhum perfil carregado.</td></tr>`;
         return;
@@ -232,7 +281,11 @@ function renderCandidates(data) {
             <td>
                 <div class="candidate-info">
                     ${candidate.photo ? `<div class="avatar" style="width: 40px; height: 40px; margin-right: 15px;"><img src="${candidate.photo}" alt="${candidate.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--grey-100);"></div>` : ''}
-                    <div><span class="candidate-name">${candidate.name}</span><span class="candidate-title">${candidate.title}</span><div style="font-size: 0.75rem; color: var(--grey-500); display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i data-lucide="map-pin" style="width: 12px;"></i> ${candidate.location}</div></div>
+                    <div>
+                        <span class="candidate-name" style="display: block;">${candidate.name}</span>
+                        <span class="candidate-title" style="display: block; font-size: 0.75rem;">${candidate.title}</span>
+                        <div style="font-size: 0.75rem; color: var(--grey-500); display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i data-lucide="map-pin" style="width: 12px;"></i> ${candidate.location}</div>
+                    </div>
                 </div>
             </td>
             <td><div style="font-weight: 600; color: var(--darker);">${candidate.company}</div></td>
@@ -256,26 +309,33 @@ function renderCandidates(data) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // RESET INICIAL PARA LIMPAR TUDO COMO SOLICITADO
+    // Descomente as linhas abaixo se quiser limpar ao carregar
+    // localStorage.clear();
+    // appState = { vagas: [], bancoDeTalentos: [], activeVagaId: null, currentSearchResults: [] };
+    
     showSection('dashboard');
     const searchBtn = document.getElementById('btn-search');
-    searchBtn.addEventListener('click', async () => {
-        const query = document.getElementById('job-description').value.trim();
-        if (!query) return;
-        searchBtn.disabled = true;
-        searchBtn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Buscando na Internet...';
-        if (window.lucide) window.lucide.createIcons();
-        try {
-            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-            const results = await response.json();
-            renderCandidates(results);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            searchBtn.disabled = false;
-            searchBtn.innerHTML = '<i data-lucide="zap"></i> Rankear';
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async () => {
+            const query = document.getElementById('job-description').value.trim();
+            if (!query) return;
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Buscando na Internet...';
             if (window.lucide) window.lucide.createIcons();
-        }
-    });
+            try {
+                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                const results = await response.json();
+                renderCandidates(results);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = '<i data-lucide="zap"></i> Rankear';
+                if (window.lucide) window.lucide.createIcons();
+            }
+        });
+    }
 });
 
 function exportVagaData() {

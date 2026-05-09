@@ -64,11 +64,15 @@
                 </li>
             </nav>
             
-            <div class="nav-footer" style="padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
+            <div class="nav-footer" style="padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 0.5rem;">
                 <a href="#" class="nav-link">
                     <i data-lucide="settings"></i>
                     Configurações
                 </a>
+                <button class="btn-clear" onclick="clearAllData()" style="width: 100%; border: none;">
+                    <i data-lucide="trash-2" style="width: 16px;"></i>
+                    Limpar Tudo
+                </button>
             </div>
         </aside>
 

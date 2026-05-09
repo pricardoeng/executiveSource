@@ -319,18 +319,27 @@ input:focus, select:focus {
 }
 
 th {
-    padding: 1.5rem 3rem;
-    background: var(--bg-main);
+    padding: 1.2rem 2rem;
+    background: var(--grey-50);
     color: var(--grey-500);
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-bottom: 1px solid var(--grey-100);
 }
 
 td {
-    padding: 2rem 3rem;
-    border-bottom: 1px solid var(--grey-100);
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid var(--grey-50);
+    vertical-align: middle;
+}
+
+.candidate-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 280px;
 }
 
 .candidate-name {
@@ -399,6 +408,28 @@ td {
     border-color: var(--grey-400);
     color: var(--darker);
     transform: translateY(-2px);
+}
+
+.btn-clear {
+    margin-top: auto;
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    padding: 0.8rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-clear:hover {
+    background: #ff4d4d;
+    color: white;
 }
 
 /* Animations */
