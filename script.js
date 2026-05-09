@@ -98,8 +98,8 @@ function getAvatarHTML(candidate) {
     return `<div class="avatar-circle">${initials}</div>`;
 }
 
-// NEW LINKEDIN ICON SVG (Official Square Brand Logo)
-const linkedinIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 34" fill="white"><path d="M34,2.5C34,1.1,32.9,0,31.5,0h-29C1.1,0,0,1.1,0,2.5v29C0,32.9,1.1,34,2.5,34h29c1.4,0,2.5-1.1,2.5-2.5V2.5z M10.2,28.7H5.1V12.1h5.1V28.7z M7.7,9.9c-1.6,0-3-1.3-3-3c0-1.6,1.3-3,3-3s3,1.3,3,3C10.6,8.6,9.3,9.9,7.7,9.9z M28.7,28.7h-5.1v-8c0-1.9,0-4.3-2.6-4.3c-2.6,0-3,2-3,4.2v8.1h-5.1V12.1h4.9v2.3h0.1c0.7-1.3,2.4-2.7,4.8-2.7c5.1,0,6.1,3.4,6.1,7.8V28.7z"/></svg>`;
+// NEW LINKEDIN ICON SVG (Square blue as requested)
+const linkedinIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43c-1.14 0-2.06-.92-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zm15.11 13.02h-3.56v-5.59c0-1.33-.03-3.05-1.85-3.05-1.85 0-2.14 1.45-2.14 2.95v5.69h-3.56V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z"/></svg>`;
 
 // Dashboard Stats & Saved Table
 function updateDashboardStats() {
