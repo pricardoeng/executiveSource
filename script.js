@@ -133,11 +133,14 @@ function updateDashboardStats() {
                     <td><span style="font-weight: 600; color: var(--grey-600);">${candidate.company}</span></td>
                     <td><span class="badge badge-match">${candidate.match}%</span></td>
                     <td>
-                        <div class="action-buttons-group">
+                        <div class="action-buttons-group" style="justify-content: flex-end;">
                             <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin" title="LinkedIn">
                                 <i data-lucide="linkedin"></i>
                             </a>
-                            <button class="btn-icon-action" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.1);" onclick="removeCandidate('${activeVaga.id}', '${candidate.linkedin}')">
+                            <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon" title="Enviar Convite">
+                                <i data-lucide="send"></i>
+                            </button>
+                            <button class="btn-icon-action" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.1);" onclick="removeCandidate('${activeVaga.id}', '${candidate.linkedin}')" title="Remover">
                                 <i data-lucide="trash-2"></i>
                             </button>
                         </div>
@@ -184,8 +187,9 @@ function renderBancoTalentos() {
             <td><strong style="color: var(--grey-600);">${candidate.company}</strong></td>
             <td><span class="badge badge-match">${candidate.match}%</span></td>
             <td>
-                <div class="action-buttons-group">
+                <div class="action-buttons-group" style="justify-content: flex-end;">
                     <a href="${candidate.linkedin}" target="_blank" class="btn-icon-action btn-linkedin"><i data-lucide="linkedin"></i></a>
+                    <button onclick="connectToCandidate('${candidate.name.replace(/'/g, "\\'")}', '${candidate.linkedin}')" class="btn-icon-action btn-connect-icon"><i data-lucide="send"></i></button>
                     <button class="btn-icon-action" style="background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border-color: transparent;" onclick="removeFromBank('${candidate.linkedin}')"><i data-lucide="trash-2"></i></button>
                 </div>
             </td>
