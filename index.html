@@ -135,10 +135,10 @@
 
                 <!-- Persistent Consultation Table -->
                 <section id="saved-candidates-section" class="results-section animate-fade-in" style="display: none;">
-                    <div class="results-header">
-                        <h3>Candidatos Mapeados para esta Vaga</h3>
-                        <button class="btn-search" style="background: white; color: var(--dark); border: 1px solid var(--grey-200); font-size: 0.8rem;" onclick="exportVagaData()">
-                            <i data-lucide="download"></i> Exportar Dados da Vaga
+                    <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--darker); font-weight: 700;">Candidatos Mapeados para esta Vaga</h3>
+                        <button class="btn-export-premium" onclick="exportVagaData()">
+                            <i data-lucide="download" style="width: 16px;"></i> Exportar Relatório
                         </button>
                     </div>
                     <div class="table-container">
@@ -240,13 +240,11 @@
 
                 <!-- Results Section -->
                 <section class="results-section animate-fade-in delay-1">
-                    <div class="results-header">
-                        <h3>Resultados da Busca Real-Time</h3>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn-search" style="background: var(--grey-100); color: var(--dark); border: 1px solid var(--grey-200);">
-                                <i data-lucide="download"></i> Exportar CSV
-                            </button>
-                        </div>
+                    <div class="results-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--darker); font-weight: 700;">Resultados da Busca Real-Time</h3>
+                        <button class="btn-export-premium" onclick="exportVagaData()">
+                            <i data-lucide="file-text" style="width: 16px;"></i> Exportar CSV
+                        </button>
                     </div>
                     
                     <div class="table-container">
