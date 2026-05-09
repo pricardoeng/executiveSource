@@ -335,13 +335,25 @@ th {
     text-align: left; /* Garante alinhamento à esquerda */
 }
 
-/* Larguras fixas para alinhamento perfeito - Experiência PRIORITÁRIA */
-th:nth-child(1), td:nth-child(1) { width: 70px; text-align: center; }
-th:nth-child(2), td:nth-child(2) { width: 25%; }
-th:nth-child(3), td:nth-child(3) { width: 12%; }
-th:nth-child(4), td:nth-child(4) { width: 10%; }
-th:nth-child(5), td:nth-child(5) { width: auto; } /* Experiência ocupa o resto */
-th:nth-child(6), td:nth-child(6) { width: 180px; text-align: right; }
+/* Larguras fixas para alinhamento perfeito (Tabela de Busca - 6 colunas) */
+#section-busca th:nth-child(1), #section-busca td:nth-child(1) { width: 70px; text-align: center; }
+#section-busca th:nth-child(2), #section-busca td:nth-child(2) { width: 20%; }
+#section-busca th:nth-child(3), #section-busca td:nth-child(3) { width: 12%; }
+#section-busca th:nth-child(4), #section-busca td:nth-child(4) { width: 100px; text-align: center; }
+#section-busca th:nth-child(5), #section-busca td:nth-child(5) { width: 38%; } /* Experiência ganha destaque */
+#section-busca th:nth-child(6), #section-busca td:nth-child(6) { width: 160px; text-align: right; }
+
+/* Larguras para Dashboard e Banco (5 colunas) */
+#section-dashboard th:nth-child(1), #section-dashboard td:nth-child(1),
+#section-banco th:nth-child(1), #section-banco td:nth-child(1) { width: 70px; text-align: center; }
+#section-dashboard th:nth-child(2), #section-dashboard td:nth-child(2),
+#section-banco th:nth-child(2), #section-banco td:nth-child(2) { width: 35%; }
+#section-dashboard th:nth-child(3), #section-dashboard td:nth-child(3),
+#section-banco th:nth-child(3), #section-banco td:nth-child(3) { width: 25%; }
+#section-dashboard th:nth-child(4), #section-dashboard td:nth-child(4),
+#section-banco th:nth-child(4), #section-banco td:nth-child(4) { width: 15%; text-align: center; }
+#section-dashboard th:nth-child(5), #section-dashboard td:nth-child(5),
+#section-banco th:nth-child(5), #section-banco td:nth-child(5) { width: 180px; text-align: right; }
 
 tr {
     transition: var(--transition);
