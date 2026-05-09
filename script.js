@@ -29,9 +29,9 @@ function showSection(sectionId) {
         if (el) el.style.display = s === sectionId ? 'block' : 'none';
     });
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('onclick')?.includes(sectionId)) {
+        if (link.getAttribute('onclick')?.includes(`'${sectionId}'`)) {
             link.classList.add('active');
         }
     });

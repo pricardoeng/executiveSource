@@ -269,6 +269,36 @@
         </main>
     </div>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav">
+        <ul class="mobile-nav-links">
+            <li>
+                <a href="#" class="mobile-nav-link active" onclick="showSection('dashboard')">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-nav-link" onclick="showSection('vagas')">
+                    <i data-lucide="briefcase"></i>
+                    <span>Vagas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-nav-link" onclick="showSection('banco')">
+                    <i data-lucide="database"></i>
+                    <span>Banco</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mobile-nav-link" onclick="showSection('busca')">
+                    <i data-lucide="search"></i>
+                    <span>Busca</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
     <script src="script.js"></script>
     <script>
         lucide.createIcons();
